@@ -1,1 +1,1 @@
-# Auto_emails_Vigor
+Script para a automação de emials da Vigor - Gestão de Negócios Imobiliários

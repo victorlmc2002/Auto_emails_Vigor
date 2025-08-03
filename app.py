@@ -11,198 +11,50 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 from email.mime.image import MIMEImage
 
+def ler_txt(path, lista):
+    with open(path, "r", encoding="utf-8") as arquivo:
+        for linha in arquivo:
+            linha = linha.strip()
+            if linha: 
+                partes = linha.split(". ", 1)
+                if len(partes) == 2:
+                    lista.append(partes[1])
+                else:
+                    lista.append(linha)
+            else:
+                lista.append("")
+
 # Configurações
-MES_ANTERIOR = "Junho"
-MES = "07 - Julho"
+MES_ANTERIOR = "Maio"
+MES = "06 - Junho"
 EMAIL_FROM = 'vigor.imob@gmail.com'
-EMAIL_PASSWORD = 'uryt lswm ptkb kuwq'
+#EMAIL_PASSWORD = 'uryt lswm ptkb kuwq'
+EMAIL_PASSWORD = 'qzls bxhy uiei mtiv'
 EMAIL_TO_PROP = 'victorlmc2002@gmail.com'
 EMAIL_TO_INQUILINO = 'suporte@vigornegocios.com.br'
 
 QTD = 57  # Quantidade de imóveis a serem processados
-ENDERECOS = [
-    "CONSTANTE RAMOS 29 APTO 1003",
-    "",
-    "BARÃO DO FLAMENGO 50, APARTAMENTO 401",
-    "AV OSWALDO CRUZ 149 APTO 906",
-    "AV OSWALDO CRUZ 149 APTO 1206",
-    "VISCONDE DE CARAVELAS 98 APTO 1004",
-    "AV OSWALDO CRUZ 149 APTO 2306",
-    "AV EPITACIO PESSOA 2030 APTO 202",
-    "",
-    "AV OSWALDO CRUZ 149 APTO 105",
-    "AV DULCIDIO CARDOSO 1200 APTO 305",
-    "AV OSWALDO CRUZ 149 APTO 2006",
-    "AV OSWALDO CRUZ 149 APTO 305",
-    "AV OSWALDO CRUZ 149 APTO 2206",
-    "",
-    "AV OSWALDO CRUZ 99 APTO 305",
-    "RUA DJALMA ULRICH 229 APTO 813",
-    "RUA RODOLFO DANTAS 40 APTO 302",
-    "RUA PAISSANDU 25 APTO 702",
-    "AV RAINHA ELIZABETH 376 APTO 202",
-    "RUA DEPUTADO SOARES FILHO 310 APTO 402",
-    "RUA RIBEIRO DE ALMEIDA 21 APTO 402",
-    "RUA SÁ FERREIRA 23 APTO 402",
-    "AV OSWALDO CRUZ 149 APTO 1403",
-    "RUA MARQUES DE ABRANTES 127 APTO 904",
-    "RUA MARQUES DE ABRANTES 127 APTO 204",
-    "AV CLAUDIO BESSERMAN VIANNA 3 BL1 APTO 205",
-    "AV OSWALDOCRUZ 149 APTO 106",
-    "RUA GETULIO DAS NEVES 31 APTO 103",
-    "PRAIA DE BOTAFOGO 48 APTO 30",
-    "AV OSWALDO CRUZ 67 APTO 1006",
-    "RUA SENADOR VERGUEIRO 192 APTO 802",
-    "RUA DAS LARANJEIRAS 29 APTO 1306",
-    "RUA MARQUES DE ABRANRES 142 APTO 701",
-    "AV OSWALDOCRUZ 149 APTO 1601",
-    "RUA ARISTIDES ESPINOLA 20 APTO 404",
-    "RUA HERMENEGILDO DE BARROS 9 APTO 1007",
-    "RUA SENADOR VERGUEIRO 93 COBERTURA",
-    "RUA ALMTE PEREIRA GUIMARÃES 79 APTO 301",
-    "RUA REALGRANDEZA 38 APTO 302",
-    "RUA MAESTRO FRANCISCO BRAGA 235 APTO 203",
-    "RUA JORNALISTA ORLANDO DANTAS 12 COB 02",
-    "RUA CRUZ LIMA 33 APTO 101",
-    "PRAIA DO FLAMENGO 364 APTO 901",
-    "RUA MARQUES DE ABRANYES 192 BL01 APTO 803",
-    "RUA BELIZARIO TAVORA 77 APTO 405",
-    "RUA TIMOTEO DA COSTA 1100 APTO 303",
-    "RUA HUMAITA 234 BL2 APTO 704",
-    "RUA VISCONDE DE PIRAJÁ 444 APTO 801",
-    "RUA GUSTAVO SAMPAIO 244 BL1 APTO 1001",
-    "RUA RAIMUNDO CORREA 68 LJ C",
-    "RUA PRES. CARLOS DE CAMPOS 115 BL1 APTO 302",
-    "RUA SENADOR VERGUEIRO 114 APTO 1102",
-    "AVENIDA TIM MAIA 7585 BL3 APTO 207",
-    "RUA FONTE DA SAUDADE 129 APTO 801",
-    "RUA SENADOR VERGUEIRO 107 APTO 303",
-    "RUA DONA MARIANA 182 APTO 103"
-]
+
+# Lista de endereços
+ENDERECOS = []
+ler_txt("C:/Users/victo/Desktop/auto/Auto_emails_Vigor/enderecos.txt", ENDERECOS)
+
 # Lista de nomes
-NOMES = [
-    "JESSICA FONTENELLE FREITAS",
-    "",
-    "LUCIANA CHARDELLI NUNES",
-    "ELIANA LORENTZ CHAVES",
-    "MARIANA TERK CAMPOS",
-    "LUISA MACIEL CAMILLO",
-    "BERNARDO DE OLIVEIRA NUNES",
-    "JULIANA LEITE DE ARAUJO",
-    "",
-    "SUELY DA CONCEIÇÃO ALVES",
-    "HENRIQUE DUTRA FRANKLIN MARTIN",
-    "ITAMAR KOZNIAK",
-    "GILBERTO KARPILOVSKY",
-    "HERNANI AQUINIFERNADES CHAVES",
-    "",
-    "AIME DO CARMO RODRIGUES LOPES",
-    "LORENZO COPOLLA",
-    "MARCIA MARIA RAMOS DE MONCADA",
-    "FERNANDO DA ROCHA VAZ BANDEIRA",
-    "MONTREAL INFORMATICA AS",
-    "JULIO CESAR GIOMO",
-    "NIVEA MUNIZ FELIX",
-    "PAULO MARCUS MOURA DE ROCHA",
-    "LEONARDO ARIEL PARDO",
-    "LIVIA FRANCISQUINI DE SIQUEIRA",
-    "FERNADO BORTOLO DE REZENDE",
-    "BIANCA DE CARVALHO TESTA ACAMPORA",
-    "YURI CASTELLO BRANCO GOMES",
-    "JESSICA PEREIRA SA VIANNA",
-    "JULIO CEZAR PADRÃO DE OLIVEIRA",
-    "LEONARDO BARROS SILVEIRA",
-    "VERONICA DA COSTA DALCANAL",
-    "FLAVIA CASTELLAN BRAGA",
-    "KARL GEORGES MEIRELLES GALLAO",
-    "MARIA ELIZABETH ALMEIDA MARQUES",
-    "MARCELO FALCÃO JORDÃO RAMOS",
-    "GULIHERNE OLIVEIRA SILVA",
-    "MAURO JACOB LOUSADA",
-    "ALEXANDRE KACELNIK",
-    "THAIS PINTO COELHO DE ANDRADE",
-    "ALEANDRA PEREIRA FLORIDO",
-    "ANDRESSA PUHL PETRAZZINI",
-    "IURI JOSÉ DE MORAES FERREIRA",
-    "AQUILES POLLETI MOREIRA",
-    "FARES FERREIRA PESSOA",
-    "JULIA PAGY GABRIEL",
-    "ANDRE GUEDES DE QUEIROZ PEREIRA",
-    "NATALIA MOURA BRASIL",
-    "JOÃO PAULO VERGUEIRO DE MOURA",
-    "CILENE BARBOSA",
-    "ERICO MARCELO CERQUEIRA ALVES",
-    "VICTOR IRRMAN",
-    "RODRIGO DE CARVALHO ROCHA",
-    "PEDRO HENRIQUE VIEIRA GALVÃO DE LIMA",
-    "ROSA MARIA GONÇALVES DE CANHA",
-    "NECYLIO BEZERRA DE ARAUJO NETO",
-    "IURI CARNEVALE DE CARVALHO"
-]
+NOMES_INQUELINOS = []
+ler_txt("C:/Users/victo/Desktop/auto/Auto_emails_Vigor/nomes_inquelinos.txt", NOMES_INQUELINOS)
+
 # Lista de emails
-EMAILS = [
-    "fontenelle.jessica@gmail.com",
-    "",
-    "luciana@cn-advogados.com",
-    "elianalochaves@gmail.com",
-    "m-terk@uol.com.br",
-    "luisa.macielc@gmail.com",
-    "bernardo.nunes@gmail.com",
-    "jully_uff@yahoo.com.br",
-    "",
-    "suelycascoutinho@hotmail.com",
-    "henriquemdutra@hotmail.com",
-    "itamarkozniak@gmail.com",
-    "gilbertocarpi@terra.com.br",
-    "anacristinabfc@gmail.com",
-    "",
-    "aime_lopes@hotmail.com",
-    "lorenzocoppola17@gmail.com",
-    "marciamoncada@yahoo.com.br",
-    "fnando.demelo@pm.me",
-    "contasapagar@montreal.com.br",
-    "julio-cesargiomo@hotmail.com",
-    "niveafelix75@gmail.com",
-    "paulomarcusferreira@hotmail.com",
-    "pardo.leonardo@gmail.com",
-    "liviafsiqueira15@gmail.com",
-    "fernandorezzende@gmail.com",
-    "matheuszugepaz@hotmail.com.br",
-    "yuricbgomes@hotmail.com",
-    "jessica.carine@hotmail.com",
-    "jcpdeol@gmail.com",
-    "leopacheco@poli.ufrj.br",
-    "vdalcanal@yahoo.com.br",
-    "fcbraga@hotmail.com",
-    "karlmuhs@hotmail.com",
-    "zazadelbosco@gmail.com",
-    "marcelofalcaodf@gmail.com",
-    "guilhermeos91@gmail.com",
-    "maurojlosada@hotmail.com",
-    "kacelnik17@gmail.com",
-    "thaispcandrade@gmail.com",
-    "florido.aleandra@gmail.com",
-    "andressa_petrazzini@hotmail.com",
-    "iuriucm@hotmail.com",
-    "aqpomo@gmail.com",
-    "farespessoa@gmail.com",
-    "juliapagy@gmail.com",
-    "andre.gqp@gmail.com",
-    "natalia.mbrazil@gmail.com",
-    "jpaulocampos@hotmail.com",
-    "cilene.cbrj@gmail.com",
-    "emcarj@gmail.com",
-    "victor.irrmann@gmail.com",
-    "rodrangra@hotmail.com",
-    "pedrohglima1@gmail.com",
-    "rosacanha@uol.com.br",
-    "necylioneto@icloud.com",
-    "roscarnevale01@gmail.com",
-]
+EMAILS_INQUELINOS = []
+ler_txt("C:/Users/victo/Desktop/auto/Auto_emails_Vigor/emails_inquelinos.txt", EMAILS_INQUELINOS)
+
+# Verifica se as listas têm o mesmo tamanho
+if not (len(ENDERECOS) == len(NOMES_INQUELINOS) == len(EMAILS_INQUELINOS)):
+    raise ValueError("As listas de endereços, nomes e emails devem ter o mesmo tamanho.")
+
 # Caminhos das pastas
-BASE_PATH = Path('C:/pasta marcelo/Administradora de Imóveis/Boletos 2025')
+BASE_PATH = Path('C:/Users/victo/Desktop/teste/boletos')
 PASTA_BOLETOS = BASE_PATH / MES / 'Boletos'
-print(PASTA_BOLETOS)
+#print(PASTA_BOLETOS)
 PASTA_CONDOMINIO = BASE_PATH / MES / 'Taxa de Condomínio'
 PASTA_REPASSES = BASE_PATH / MES / 'Repasses'
 ARQ_EXCEL = BASE_PATH / 'Planilha nova 2025.xlsx'
@@ -366,7 +218,7 @@ def ler_planilha(excel, n):
             dados = extrair_dados_linha(planilha, x, y)
             
             devedor = criar_devedor(
-                ENDERECOS[imovel], NOMES[imovel], EMAILS[imovel], dados, 
+                ENDERECOS[imovel], NOMES_INQUELINOS[imovel], EMAILS_INQUELINOS[imovel], dados, 
                 pdfs[imovel] if imovel < len(pdfs) else None,
                 conds[imovel] if imovel < len(conds) else None,
                 repasses[imovel] if imovel < len(repasses) else None
@@ -375,25 +227,7 @@ def ler_planilha(excel, n):
             devedores.append(devedor)
             imovel += 1
         x += 17
-    # for _ in range(19):
-    #     temp = x
-    #     for y in range(2, 17, 5):
-    #         dados = extrair_dados_linha(planilha, x, y)
-    #         pdfs = processar_pasta(PASTA_BOLETOS)
-    #         conds = processar_pasta(PASTA_CONDOMINIO)
-    #         repasses = processar_pasta(PASTA_REPASSES)
-            
-    #         devedor = criar_devedor(
-    #             ENDERECOS[imovel], NOMES[imovel], EMAILS[imovel], dados, 
-    #             pdfs[imovel] if imovel < len(pdfs) else None,
-    #             conds[imovel] if imovel < len(conds) else None,
-    #             repasses[imovel] if imovel < len(repasses) else None
-    #         )
-    #         devedores.append(devedor)
-    #         imovel += 1
-    #         x = temp
-    #     x += 17
-    
+    wb.close()
     return devedores
 
 def extrair_dados_linha(planilha, x, y):
@@ -422,7 +256,7 @@ def extrair_dados_linha(planilha, x, y):
             dados['cond'] = valor
         elif celula.value == "Valor Boleto":
             dados['valor'] = valor
-        elif celula.value is None:
+        elif celula.value is None or "BLT" in celula.value:
             index = 1
         elif celula.value is not None and index == 0 and (float(valor) > 0):
             dados['cotas_extras'].append({celula.value: valor})
@@ -485,15 +319,15 @@ def extrair_mensagem_assunto(caminho_arquivo):
     partes = nome_arquivo.split(" - ", 1)[1]
     return partes.rsplit(" - ", 1)[0] if " - " in partes else partes
 
-def criar_email(devedor, texto_formatado, anexos, imagem="lg.png"):
+def criar_email(devedor, texto_formatado, anexos, imagem="C:/Users/victo/Desktop/auto/Auto_emails_Vigor/lg.png"):
     """Cria e configura mensagem de e-mail, com opção de imagem embutida."""
     print(devedor._email_inquilino)
     if not devedor._endereco or not devedor._nome_inquilino or not devedor._email_inquilino:
         raise ValueError("Imóvel inválido: endereço, nome ou email não fornecidos.")
     msg = MIMEMultipart('related')
     msg['Subject'] = extrair_mensagem_assunto(anexos[0])
-    msg['From'] = EMAIL_FROM
-    msg['To'] = devedor._email_inquilino
+    msg['From'] = EMAIL_TO_PROP
+    msg['To'] = EMAIL_TO_PROP
 
     # Corpo do email (com imagem embutida se fornecida)
     if devedor._cond is None:

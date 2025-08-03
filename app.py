@@ -40,15 +40,15 @@ ENDERECOS = []
 ler_txt("C:/Users/victo/Desktop/auto/Auto_emails_Vigor/enderecos.txt", ENDERECOS)
 
 # Lista de nomes
-NOMES_INQUELINOS = []
-ler_txt("C:/Users/victo/Desktop/auto/Auto_emails_Vigor/nomes_inquelinos.txt", NOMES_INQUELINOS)
+NOMES_INQUILINOS = []
+ler_txt("C:/Users/victo/Desktop/auto/Auto_emails_Vigor/nomes_inquilinos.txt", NOMES_INQUILINOS)
 
 # Lista de emails
-EMAILS_INQUELINOS = []
-ler_txt("C:/Users/victo/Desktop/auto/Auto_emails_Vigor/emails_inquelinos.txt", EMAILS_INQUELINOS)
+EMAILS_INQUILINOS = []
+ler_txt("C:/Users/victo/Desktop/auto/Auto_emails_Vigor/emails_inquilinos.txt", EMAILS_INQUILINOS)
 
 # Verifica se as listas têm o mesmo tamanho
-if not (len(ENDERECOS) == len(NOMES_INQUELINOS) == len(EMAILS_INQUELINOS)):
+if not (len(ENDERECOS) == len(NOMES_INQUILINOS) == len(EMAILS_INQUILINOS)):
     raise ValueError("As listas de endereços, nomes e emails devem ter o mesmo tamanho.")
 
 # Caminhos das pastas
@@ -218,7 +218,7 @@ def ler_planilha(excel, n):
             dados = extrair_dados_linha(planilha, x, y)
             
             devedor = criar_devedor(
-                ENDERECOS[imovel], NOMES_INQUELINOS[imovel], EMAILS_INQUELINOS[imovel], dados, 
+                ENDERECOS[imovel], NOMES_INQUILINOS[imovel], EMAILS_INQUILINOS[imovel], dados, 
                 pdfs[imovel] if imovel < len(pdfs) else None,
                 conds[imovel] if imovel < len(conds) else None,
                 repasses[imovel] if imovel < len(repasses) else None

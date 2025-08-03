@@ -10,6 +10,11 @@ from itertools import groupby
 import tkinter as tk
 from tkinter import ttk, messagebox
 from email.mime.image import MIMEImage
+from dotenv import load_dotenv
+import os
+
+# Carrega variáveis do arquivo .env
+load_dotenv()
 
 def ler_txt(path, lista):
     with open(path, "r", encoding="utf-8") as arquivo:
@@ -27,11 +32,10 @@ def ler_txt(path, lista):
 # Configurações
 MES_ANTERIOR = "Maio"
 MES = "06 - Junho"
-EMAIL_FROM = 'vigor.imob@gmail.com'
-#EMAIL_PASSWORD = 'uryt lswm ptkb kuwq'
-EMAIL_PASSWORD = 'qzls bxhy uiei mtiv'
-EMAIL_TO_PROP = 'victorlmc2002@gmail.com'
-EMAIL_TO_INQUILINO = 'suporte@vigornegocios.com.br'
+EMAIL_FROM = os.getenv("EMAIL_FROM")
+EMAIL_PASSWORD = os.getenv("EMAIL_PASSWORD")
+EMAIL_TO_PROP = os.getenv("EMAIL_TO_PROP")
+EMAIL_TO_INQUILINO = os.getenv("EMAIL_TO_INQUILINO")
 
 QTD = 57  # Quantidade de imóveis a serem processados
 
